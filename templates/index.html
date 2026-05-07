@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lulu Kit — Claude Code Power Setup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #e8001c;
+      --red-dim: #a80015;
+      --bg: #0d0d0d;
+      --card: #1a1a1a;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --code-bg: #111;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Diagonal top stripe */
+    .stripe {
+      position: fixed;
+      top: -40px;
+      left: -5%;
+      width: 110%;
+      height: 90px;
+      background: var(--red);
+      transform: skewY(-3deg);
+      z-index: 0;
+    }
+    .stripe::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: #000;
+      opacity: 0.4;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+    }
+
+    /* Hero */
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 72px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .tagline {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.5;
+      border-left: 3px solid var(--red);
+      padding-left: 16px;
+      margin-bottom: 6px;
+    }
+
+    .attribution {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+      padding-left: 19px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Install card */
+    .install-card {
+      background: var(--card);
+      border-left: 4px solid var(--red);
+      padding: 28px 28px 24px;
+      margin-bottom: 40px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      font-variant: small-caps;
+      color: var(--red);
+      margin-bottom: 16px;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid #2a2a2a;
+      padding: 14px 18px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 14px;
+      color: #f0f0f0;
+      letter-spacing: 0.02em;
+      word-break: break-all;
+      margin-bottom: 16px;
+      user-select: all;
+    }
+
+    .copy-btn {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      font-family: 'Rajdhani', 'Segoe UI', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .copy-btn:hover { background: #ff0020; }
+    .copy-btn:active { background: var(--red-dim); }
+
+    /* Sections */
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 14px;
+    }
+
+    .req-list {
+      list-style: none;
+      padding: 0;
+    }
+    .req-list li {
+      font-size: 14px;
+      color: var(--text-muted);
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+    }
+    .req-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+    }
+
+    /* Skills grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .skill-chip {
+      border: 1px solid var(--red);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      letter-spacing: 0.03em;
+      padding: 7px 12px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .skill-chip:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    /* Diagonal accent bar mid-page */
+    .divider {
+      height: 3px;
+      background: linear-gradient(90deg, var(--red) 0%, transparent 100%);
+      transform: skewX(-20deg);
+      margin: 40px 0;
+      width: 60%;
+    }
+
+    footer {
+      font-size: 12px;
+      color: #444;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 20px;
+      border-top: 1px solid #1f1f1f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="stripe"></div>
+
+<main>
+  <p class="eyebrow">Claude Code Power Setup</p>
+  <h1>Lulu Kit</h1>
+
+  <p class="tagline">"All tasks are possible — the only question is whether I choose to command them."</p>
+  <p class="attribution">— Emperor Lelouch vi Britannia</p>
+
+  <div class="install-card">
+    <p class="card-label">Install</p>
+    <div class="code-block" id="install-cmd">irm https://RAILWAY_URL/install.ps1 | iex</div>
+    <button class="copy-btn" id="copy-btn" onclick="copyCmd(this)">Copy to Clipboard</button>
+  </div>
+
+  <div class="section">
+    <p class="section-title">Requirements</p>
+    <ul class="req-list">
+      <li>Windows 10 / 11</li>
+      <li>Python 3.10+</li>
+      <li>Node.js (for Claude Code CLI)</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-title">What's Included</p>
+    <div class="skills-grid">
+      <div class="skill-chip">/king-claude</div>
+      <div class="skill-chip">/dispatch</div>
+      <div class="skill-chip">/vision</div>
+      <div class="skill-chip">/hearing</div>
+      <div class="skill-chip">/file-organizer</div>
+      <div class="skill-chip">/iphonetest</div>
+      <div class="skill-chip">/javascript</div>
+      <div class="skill-chip">/p5-ui</div>
+      <div class="skill-chip">/plugin</div>
+    </div>
+  </div>
+
+  <footer>Part of the Gritted-Teeth-Lifestyle toolkit</footer>
+</main>
+
+<script>
+  function copyCmd(btn) {
+    var cmd = document.getElementById('install-cmd').textContent.trim();
+    navigator.clipboard.writeText(cmd).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy to Clipboard'; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
