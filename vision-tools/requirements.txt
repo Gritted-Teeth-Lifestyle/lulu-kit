@@ -1,0 +1,11 @@
+pillow
+pygetwindow
+pyautogui
+pywin32
+playwright
+sounddevice
+SoundCard
+openai-whisper
+librosa
+numpy
+scipy
