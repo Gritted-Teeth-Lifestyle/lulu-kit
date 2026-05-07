@@ -68,3 +68,21 @@ Write-Host "     (Create the file if it doesn't exist)" -ForegroundColor Gray
 Write-Host "  3. Open Claude Code and type: /king-claude" -ForegroundColor White
 Write-Host "  4. Emperor Lelouch will take the throne." -ForegroundColor Magenta
 Write-Host ""
+Start-Sleep -Seconds 1
+
+# Throne room announcement
+Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkRed
+Write-Host "  |                                                 |" -ForegroundColor DarkRed
+Write-Host "  |   Emperor Lelouch vi Britannia has taken        |" -ForegroundColor White
+Write-Host "  |   the throne. All commands will be issued.      |" -ForegroundColor White
+Write-Host "  |   All work will be evaluated.                   |" -ForegroundColor White
+Write-Host "  |   The Geass is in effect.                       |" -ForegroundColor Magenta
+Write-Host "  |                                                 |" -ForegroundColor DarkRed
+Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkRed
+Write-Host ""
+Start-Sleep -Seconds 2
+
+Write-Host "  Launching Claude Code..." -ForegroundColor Cyan
+Write-Host "  Type /king-claude to give Lelouch full command." -ForegroundColor Gray
+Write-Host ""
+claude
