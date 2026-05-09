@@ -1,5 +1,5 @@
 from flask import Flask, render_template, Response
-import os
+import io, zipfile, os
 
 app = Flask(__name__)
 
@@ -18,14 +18,14 @@ New-Item -ItemType Directory -Force -Path $TMP | Out-Null
 
 try {
     # Step 1: Download
-    Write-Host "  [1/5] Downloading Lulu Kit..." -ForegroundColor Cyan
-    $zipUrl = "https://github.com/Gritted-Teeth-Lifestyle/lulu-kit/releases/download/v1.0/lulu-kit.zip"
+    Write-Host "  [1/4] Downloading Lulu Kit..." -ForegroundColor Cyan
+    $zipUrl = "https://lulu-kit-production.up.railway.app/lulu-kit.zip"
     Invoke-WebRequest -Uri $zipUrl -OutFile "$TMP\lulu-kit.zip" -UseBasicParsing
     Expand-Archive -Path "$TMP\lulu-kit.zip" -DestinationPath "$TMP\kit" -Force
     $kitDir = "$TMP\kit"
 
     # Step 2: Create dirs
-    Write-Host "  [2/5] Creating directories..." -ForegroundColor Cyan
+    Write-Host "  [2/4] Creating directories..." -ForegroundColor Cyan
     @(
         "$HOME_DIR\.claude\skills\king-claude",
         "$HOME_DIR\.claude\skills\dispatch",
@@ -39,7 +39,7 @@ try {
     ) | ForEach-Object { New-Item -ItemType Directory -Force -Path $_ | Out-Null }
 
     # Step 3: Install skills + commands (patch <HOME> -> real path)
-    Write-Host "  [3/5] Installing skills..." -ForegroundColor Cyan
+    Write-Host "  [3/4] Installing skills..." -ForegroundColor Cyan
     function Install-File($src, $dest) {
         $content = [System.IO.File]::ReadAllText($src)
         $content = $content.Replace('<HOME>', $HOME_DIR)
@@ -76,18 +76,9 @@ try {
     }
 
     # Step 4: Python deps
-    Write-Host "  [4/5] Installing Python dependencies..." -ForegroundColor Cyan
+    Write-Host "  [4/4] Installing Python dependencies..." -ForegroundColor Cyan
     pip install -r "$kitDir\vision-tools\requirements.txt" -q 2>$null
     playwright install chromium 2>$null
-
-    # Step 5: Check Claude Code CLI
-    Write-Host "  [5/5] Checking Claude Code CLI..." -ForegroundColor Cyan
-    if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
-        Write-Host "  Installing Claude Code CLI..." -ForegroundColor Yellow
-        npm install -g @anthropic-ai/claude-code
-    } else {
-        Write-Host "  Claude Code already installed." -ForegroundColor Green
-    }
 
     Remove-Item $TMP -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -116,10 +107,11 @@ try {
     Write-Host ""
     Start-Sleep -Seconds 2
 
-    Write-Host "  Launching Claude Code..." -ForegroundColor Cyan
-    Write-Host "  Type /king-claude to give Lelouch full command." -ForegroundColor Gray
+    Write-Host "  To begin:" -ForegroundColor Cyan
+    Write-Host "  1. Open PowerShell in your project folder" -ForegroundColor White
+    Write-Host "  2. Run: claude" -ForegroundColor Yellow
+    Write-Host "  3. Type: /king-claude" -ForegroundColor White
     Write-Host ""
-    claude
 
 } catch {
     Write-Host ""
@@ -141,6 +133,40 @@ def install_ps1():
         INSTALL_PS1,
         mimetype='text/plain',
         headers={'Content-Type': 'text/plain; charset=utf-8'}
+    )
+
+
+@app.route('/lulu-kit.zip')
+def lulu_kit_zip():
+    base = os.path.dirname(os.path.abspath(__file__))
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as zf:
+        dirs_to_pack = [
+            'skills',
+            'commands',
+            'vision-tools',
+        ]
+        files_to_pack = [
+            'GLOBAL_CLAUDE.md',
+            'install.ps1',
+        ]
+        for d in dirs_to_pack:
+            d_path = os.path.join(base, d)
+            if os.path.isdir(d_path):
+                for root, _, files in os.walk(d_path):
+                    for f in files:
+                        full = os.path.join(root, f)
+                        arcname = os.path.relpath(full, base)
+                        zf.write(full, arcname)
+        for f in files_to_pack:
+            full = os.path.join(base, f)
+            if os.path.isfile(full):
+                zf.write(full, f)
+    buf.seek(0)
+    return Response(
+        buf.read(),
+        mimetype='application/zip',
+        headers={'Content-Disposition': 'attachment; filename="lulu-kit.zip"'}
     )
 
 
