@@ -33,6 +33,11 @@ try {
         "$HOME_DIR\.claude\skills\hearing",
         "$HOME_DIR\.claude\skills\file-organizer",
         "$HOME_DIR\.claude\skills\iphonetest",
+        "$HOME_DIR\.claude\skills\gmail-signature",
+        "$HOME_DIR\.claude\skills\ioi-proposal-server",
+        "$HOME_DIR\.claude\skills\pmp-package",
+        "$HOME_DIR\.claude\skills\video-translator",
+        "$HOME_DIR\.claude\skills\resume-builder",
         "$HOME_DIR\.claude\commands",
         "$HOME_DIR\claude-vision\tasks",
         "$HOME_DIR\claude-vision\logs"
@@ -52,6 +57,11 @@ try {
     Install-File "$kitDir\skills\file-organizer\SKILL.md" "$HOME_DIR\.claude\skills\file-organizer\SKILL.md"
     Install-File "$kitDir\skills\iphonetest\skill.md"  "$HOME_DIR\.claude\skills\iphonetest\skill.md"
     Install-File "$kitDir\skills\iphonetest\iphonetest.py" "$HOME_DIR\.claude\skills\iphonetest\iphonetest.py"
+    Install-File "$kitDir\skills\gmail-signature\skill.md"     "$HOME_DIR\.claude\skills\gmail-signature\skill.md"
+    Install-File "$kitDir\skills\ioi-proposal-server\skill.md" "$HOME_DIR\.claude\skills\ioi-proposal-server\skill.md"
+    Install-File "$kitDir\skills\pmp-package\skill.md"         "$HOME_DIR\.claude\skills\pmp-package\skill.md"
+    Install-File "$kitDir\skills\video-translator\skill.md"    "$HOME_DIR\.claude\skills\video-translator\skill.md"
+    Install-File "$kitDir\skills\resume-builder\skill.md"      "$HOME_DIR\.claude\skills\resume-builder\skill.md"
     Install-File "$kitDir\commands\javascript.md"      "$HOME_DIR\.claude\commands\javascript.md"
     Install-File "$kitDir\commands\p5-ui.md"           "$HOME_DIR\.claude\commands\p5-ui.md"
     Install-File "$kitDir\commands\plugin.md"          "$HOME_DIR\.claude\commands\plugin.md"
